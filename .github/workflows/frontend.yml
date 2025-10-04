@@ -12,10 +12,10 @@ jobs:
     env:
       AWS_REGION: us-east-1
       S3_BUCKET: luan-test-frontend-luan
-      DISTRIBUTION_ID: E1PMKVA555LCD5
+      DISTRIBUTION_ID: E1PMKVA555LCD5   # <-- coloque aqui seu ID real
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -24,30 +24,27 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build project
         run: npm run build
 
-      # 🪣 Sincroniza os arquivos do build com o bucket privado do S3
       - name: Deploy to S3
-        uses: aws-actions/s3-sync@v2
+        uses: jakejarvis/s3-sync-action@master
         with:
-          source: ./dist
-          destination: s3://${{ env.S3_BUCKET }}
-          delete: true
+          args: --delete
         env:
-          AWS_REGION: ${{ env.AWS_REGION }}
+          AWS_S3_BUCKET: ${{ env.S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ env.AWS_REGION }}
+          SOURCE_DIR: "dist"
 
-      # 🌐 Invalida o cache do CloudFront
-      - name: Invalidate CloudFront cache
-        uses: awact/cloudfront-invalidate@v1
-        with:
-          distribution-id: ${{ env.DISTRIBUTION_ID }}
-          paths: "/*"
+      - name: Invalidate CloudFront Cache
+        uses: chetan/invalidate-cloudfront-action@v2
         env:
+          DISTRIBUTION: ${{ env.DISTRIBUTION_ID }}
+          PATHS: "/*"
           AWS_REGION: ${{ env.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
