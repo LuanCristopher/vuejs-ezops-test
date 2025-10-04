@@ -12,7 +12,7 @@ jobs:
     env:
       AWS_REGION: us-east-1
       S3_BUCKET: luan-test-frontend-luan
-      DISTRIBUTION_ID: E1PMKVA555LCD5   # <-- coloque aqui seu ID real
+      DISTRIBUTION_ID: E1PMKVA555LCD5 
 
     steps:
       - name: Checkout code
@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 14 
 
       - name: Install dependencies
         run: npm install
