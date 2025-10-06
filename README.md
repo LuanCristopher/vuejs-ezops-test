@@ -17,3 +17,5 @@ npm run build
 
 
 creds: https://github.com/zmts/beauty-vuejs-boilerplate 
+
+teste
