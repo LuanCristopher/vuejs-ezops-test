@@ -29,3 +29,5 @@ new Vue({
   },
   render: h => h(AppLayout)
 }).$mount('#app')
+
+//teste-pipeline

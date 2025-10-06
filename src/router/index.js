@@ -17,3 +17,5 @@ router.beforeEach(checkAccessMiddleware)
 router.beforeEach(setPageTitleMiddleware)
 
 export default router
+
+//testepipe
