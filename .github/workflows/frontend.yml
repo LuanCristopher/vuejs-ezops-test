@@ -12,7 +12,7 @@ jobs:
     env:
       AWS_REGION: us-east-1
       S3_BUCKET: luan-luan-test-frontend
-      DISTRIBUTION_ID: E3IW02AU60VDUK
+      DISTRIBUTION_ID: E3IW02AU60VDUK # CloudFront Distribution ID
 
     steps:
       - name: Checkout code
